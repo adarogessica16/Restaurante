@@ -1,0 +1,43 @@
+{% extends 'menu/base.html' %}
+{% block title %} Clientes {% endblock %}
+
+{% block content %}
+<h2 class="text-warning p-2 text-center">Menú Disponible</h2>
+<div class="container">
+    <form method="POST" action="{% url 'crear_pedido' %}">
+        {% csrf_token %}
+        <div class="row">
+            {% for menu in menus %}
+            <div class="col-md-2">
+                <div class="card mb-4">
+                    <img src="{{ menu.imagen.url }}" class="card-img-top card-image img-fluid" alt="{{ menu.nombre }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ menu.nombre }}</h5>
+                        <p class="card-text">Precio: {{ menu.precio }}</p>
+                        <p class="card-text">Categoría: {{ menu.categoria.nombre }}</p>
+                        <input type="hidden" name="menu_id" value="{{ menu.id }}">
+                        <input type="hidden" name="usuario_id" value="{{ request.session.usuario.id }}">
+                        <div class="input-group mb-3">
+                            <input type="number" class="form-control" name="cantidad{{ menu.id }}"
+                                id="cantidad{{ menu.id }}" value="1" min="1">
+                            <div class="input-group-append">
+                                <span class="input-group-text">Cantidad</span>
+                            </div>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="menu_seleccionado"
+                                value="{{ menu.id }}" id="menu{{ menu.id }}">
+                            <label class="form-check-label" for="menu{{ menu.id }}">Seleccionar</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div>
+            <button type="submit" class="btn btn-warning">Realizar Pedido</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "menu/base.html" %}
+
+{% block title %} Gestion de Restaurante {% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <div class="jumbotron text-center">
+        <h1 class="text-center text-warning"><span class="text-dark">Restaurante</span> El buen Sabor</h1>
+        <p>Descubre una experiencia gastronómica única</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 border">
+            <div class="card">
+                <div class="card-body bg-warning-subtle">
+                    <h2 class="card-title text-center text-warning">Platos Principales</h2>
+                    <div class="row">
+                        {% for menu in platos_principales %}
+                            <div class="col-md-3 mb-4">
+                                <div class="card">
+                                    <img src="{{ menu.imagen.url }}" class="card-img-top card-image" alt="{{ menu.nombre }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ menu.nombre }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="text-center mt-3">
+        <a href="/pedido/menu_disponible/" class="btn btn-warning text-white">Ver Todo el menú disponible</a>
+    </div>
+{% endblock %}

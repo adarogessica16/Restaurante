@@ -1,0 +1,48 @@
+{% extends "menu/base.html" %}
+{% block title %} Login {% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12 d-flex align-items-center justify-content-center"> 
+            <div class="col-5">
+                <h5 class="text-warning">Registrarse</h5>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <input type="text" class="form-control form-control-sm" id="nombre" name="nombre" placeholder="Nombre" value="{{request.session.registro_nombre}}">
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control form-control-sm" id="apellido" name="apellido" placeholder="Apellido" value="{{request.session.registro_apellido}}">
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control form-control-sm" id="email" name="email" placeholder="Email" value="{{request.session.registro_email}}">
+                    </div>
+
+                    <div class="mb-3">
+                        <select class="form-select form-select-sm" id="tipo_usuario" name="tipo_usuario">
+                            <option value="cliente">Cliente</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="password" class="form-control form-control-sm" id="password" name="password" placeholder="Contraseña">
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control form-control-sm" name="confirmar_password" placeholder="Confirmar Contraseña">
+                    </div>
+
+                    <button type="submit" class="btn btn-warning btn-sm text-white">Registrar</button>
+                </form>
+                <p class="mt-2 text-center">
+                    ¿Ya tienes una cuenta? <a href="/registro/login/" class="text-warning">Iniciar Sesión</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'menu/base.html' %}
+
+{% block title %}Clientes{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3 class="text-warning text-center">Mi Lista de Pedidos</h3>
+
+    <div class="row mt-3">
+        {% if pedidos %}
+        {% for pedido in pedidos %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title text-center text-warning">Pedido</h4>
+                    <p class="card-text"><strong>Fecha de Pedido</strong> {{ pedido.created_at }}</p>
+                    <p class="card-text"><strong>Precio Total</strong> {{ pedido.precio_total }}</p>
+
+                    <h5 class="mt-2 text-warning text-center">Detalles del Pedido</h5>
+                    <ul class="list-group">
+                        {% for detalle in pedido.detallepedido_set.all %}
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-8">
+                                    <p><strong>Menú:</strong> {{ detalle.menu.nombre }}</p>
+                                    <p><strong>Cantidad:</strong> {{ detalle.cantidad }}</p>
+                                    <p><strong>Subtotal:</strong> {{ detalle.subtotal }}</p>
+                                </div>
+                                <div class="col-4">
+                                    <img src="{{ detalle.menu.imagen.url }}" alt="{{ detalle.menu.nombre }}" width="100px" height="100px">
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <a href="/pedido/eliminar_pedido/{{pedido.id}}" class="btn btn-warning mt-2">Eliminar Pedido</a>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p class="mt-4">No tienes pedidos.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+
+
+

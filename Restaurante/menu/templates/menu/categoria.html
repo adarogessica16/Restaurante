@@ -1,0 +1,53 @@
+{% extends "menu/base.html" %}
+
+{% block title %} Gestion de Restaurante {% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-4 mt-5">
+        <h1 class="text-center text-warning">Añadir un nueva categoria</h1>
+        <hr>
+        <div id="forms-container">
+            <form id="agregarMenuForm" class="form-panel" method="post" action="/menu/process_add_categoria/">
+                {% csrf_token%}
+                <div class="form-group">
+                    <input type="text" class="form-control mb-4" placeholder="Nombre de la categoria" name="nombre">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control mb-4" placeholder="Ingrese la descripcion"
+                        name="descripcion">
+                </div>
+
+                <button type="submit" class="btn btn-warning">Guardar Categoria</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-8 mt-5">
+        <h3 class="text-center text-warning">Lista de Categorías</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for categoria in categorias %}
+                <tr>
+                    <td>{{ categoria.nombre }}</td>
+                    <td>{{ categoria.descripcion }}</td>
+                    <td>
+                        <a href="/menu/eliminar_categoria/{{categoria.id}}" class="text-warning">Eliminar</a>
+                        <a href="/menu/editar_categoria/{{categoria.id}}" class="text-warning">Editar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+
+{% extends "menu/base.html" %}
+
+{% block title %} Gestion de Restaurante {% endblock %}
+{%block css%}
+<style>
+    .card-image {
+        height: 150px; 
+        object-fit: cover; 
+    }
+    
+</style>
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <h3 class="text-warning">Añadir un nuevo Menu</h3>
+
+        <form method="post" enctype="multipart/form-data"  class="form-inline" action="{% url 'crear_menu' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-warning">Guardar Menu</button>
+        </form>
+    </div>
+    <div class="col-md-8">
+        <h2 class="text-warning" >Menús existentes</h2>
+        <div class="row row-cols-1 row-cols-md-2 g-3">
+            {% for menu in menus %}
+            <div class="col-md-2">
+                <div class="card card-sm">
+                    <img src="{{ menu.imagen.url }}" class="card-img-top card-image" alt="{{ menu.nombre }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ menu.nombre }}</h5>
+                        <p class="card-text"><span class="text-warning text-decoration-underline">Precio</span> {{ menu.precio }}</p>
+                        <p class="card-text"><span class="text-warning text-decoration-underline">Categoría</span> {{ menu.categoria.nombre }}</p>
+                    </div>
+                </div>
+                <a href="/menu/eliminar/{{menu.id}}" class=" btn btn-warning text-white mt-2">Eliminar</a>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+    
+</div>
+
+{% endblock %}

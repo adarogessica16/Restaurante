@@ -1,0 +1,63 @@
+{% extends "menu/base.html" %}
+
+{% block title %} Gestion de Restaurante {% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <div class="jumbotron text-center">
+        <h1 class="text-warning"> <span class="text-dark">Bienvenido a</span> El Buen Sabor</h1>
+        <p>Descubre una experiencia gastronómica única</p>
+    </div>
+
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Columna de Categorías -->
+            <div class="col-md-3">
+                <div class="card bg-warning-subtle">
+                    <div class="card-body bg-warning-subtle">
+                        <h2 class="card-title text-center text-warning">Categorías</h2>
+                        <ul class="list-group list-group-flush">
+                            {% for categoria in categorias %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>{{ categoria.nombre }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a class="btn btn-warning text-white" href="/menu/categorias/">Más detalles</a>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Columna de Platos Principales -->
+            <div class="col-md-9 border">
+                <div class="card">
+                    <div class="card-body bg-warning-subtle">
+                        <h2 class="card-title text-center text-warning">Platos Principales</h2>
+                        <div class="row">
+                            <!-- Itera sobre los platos principales en la base de datos -->
+                            {% for menu in platos_principales %}
+                            <div class="col-md-3 mb-4">
+                                <div class="card">
+                                    <img src="{{ menu.imagen.url }}" class="card-img-top card-image" alt="{{ menu.nombre }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ menu.nombre }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-12 text-center">
+                <a href="/menu/crear_menu" class="btn btn-warning text-white">Agrega el menú del día</a>
+            </div>
+        </div>
+    </div>    
+
+{% endblock %}

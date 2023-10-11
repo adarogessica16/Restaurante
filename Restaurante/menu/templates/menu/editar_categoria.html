@@ -1,0 +1,26 @@
+{% extends "menu/base.html" %}
+
+{% block title %} Gestion de Restaurante {% endblock %}
+
+{% block content %}
+<div id="forms-container">
+    <div class="col-md-6">
+        <form class="card shadow-sm p-4 mt-3" method="post" action="/menu/editar_categoria/{{categoria.id}}/">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre de la categoría:</label>
+                <input type="text" class="form-control" name="nombre" value="{{categoria.nombre}}">
+            </div>
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción:</label>
+                <input type="text" class="form-control" name="descripcion" value="{{categoria.descripcion}}">
+            </div>
+            <div class="mt-2">
+                <button type="submit" class="btn btn-warning">Actualizar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

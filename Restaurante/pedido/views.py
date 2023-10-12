@@ -5,6 +5,7 @@ from .models import Pedido, DetallePedido
 from collections import defaultdict
 from decimal import Decimal 
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 def crear_pedido(request):
     if request.method == 'POST':
@@ -82,7 +83,7 @@ def lista(request):
     usuario_id = request.session['usuario']['id']
     usuario = Usuario.objects.get(id=usuario_id)
     # Filtrar los pedidos relacionados con el usuario en sesión
-    pedidos = Pedido.objects.filter(cliente=usuario)
+    pedidos = Pedido.objects.filter(cliente=usuario).order_by('-created_at')
     contexto = {
         "usuario": usuario,
         "pedidos": pedidos
@@ -91,14 +92,17 @@ def lista(request):
     return render(request, 'pedido/pedido.html', contexto)
 
 def listatotal(request):
-    menus = Menu.objects.all()
+    menus = Menu.objects.all().order_by('-created_at')
     usuarios= Usuario.objects.all()
-    pedidos= Pedido.objects.all()
-    
+    pedidos = Pedido.objects.all().order_by('-created_at')
+    # Configurar la paginación
+    paginator = Paginator(usuarios, 3)
+    page = request.GET.get('page') 
+    usuarios_pagina = paginator.get_page(page)
     contexto = {
         "pedidos": pedidos,
         "menus": menus,
-        "usuarios": usuarios
+        "usuarios": usuarios_pagina
     }
     
     return render(request, 'pedido/pedido_restaurante.html', contexto)

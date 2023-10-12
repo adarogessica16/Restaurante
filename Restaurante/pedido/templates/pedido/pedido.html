@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h3 class="text-warning text-center">Mi Lista de Pedidos</h3>
+    <h3 class="text-warning text-center">Historial de Pedidos Realizados</h3>
 
     <div class="row mt-3">
         {% if pedidos %}
@@ -36,7 +36,9 @@
                     </ul>
                 </div>
             </div>
-            <a href="/pedido/eliminar_pedido/{{pedido.id}}" class="btn btn-warning mt-2">Eliminar Pedido</a>
+            {% if pedido.estado != 'confirmado' %}
+            <a href="/pedido/eliminar_pedido/{{ pedido.id }}" class="btn btn-warning mt-2 text-white">Eliminar Pedido</a>
+            {% endif %}
         </div>
         {% endfor %}
         {% else %}

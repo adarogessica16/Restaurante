@@ -27,5 +27,3 @@ class DetallePedido(models.Model):
 
     def __str__(self):
         return self.pedido.cliente.nombre
-
-

@@ -116,4 +116,4 @@ def confirmar_pedido(request, pedido_id):
     pedido.estado = 'confirmado'
     pedido.save()
     messages.success(request, "El pedido fue confirmado al cliente.")
-    return redirect('/pedido/lista') 
+    return redirect('/pedido/listatotal') 

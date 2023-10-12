@@ -1,6 +1,6 @@
 {% extends 'menu/base.html' %}
 
-{% block title %}Clientes{% endblock %}
+{% block title %} Lista de Clientes{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
@@ -26,6 +26,11 @@
                                 <div class="alert alert-warning">
                                     <strong>Pedido</strong>
                                     <p> Fecha: {{ pedido.created_at }}- Precio Total: ${{ pedido.precio_total }} </p>
+                                    {% if pedido.estado == 'pendiente' %}
+                                    <a href="{% url 'confirmar_pedido' pedido.id %}" class="btn btn-warning text-white">Confirmar Pedido</a>
+                                    {% else %}
+                                        <p>Estado: {{pedido.estado}}</p>
+                                    {% endif %}
                                 </div>
                                 <ul class="list-unstyled">
                                     {% for detalle in pedido.detallepedido_set.all %}
@@ -48,8 +53,8 @@
         </table>
     </div>
 </div>
-
 {% endblock %}
+
 
 
 

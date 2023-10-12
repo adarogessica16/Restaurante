@@ -110,3 +110,10 @@ def eliminar_pedido(request, id):
         pedido.delete()
         messages.warning(request, "El pedido fue eliminado.")
         return redirect('/pedido/lista') 
+
+def confirmar_pedido(request, pedido_id):
+    pedido = Pedido.objects.get(id=pedido_id)
+    pedido.estado = 'confirmado'
+    pedido.save()
+    messages.success(request, "El pedido fue confirmado al cliente.")
+    return redirect('/pedido/lista') 

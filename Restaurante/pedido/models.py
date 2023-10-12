@@ -8,6 +8,11 @@ class Pedido(models.Model):
     menus = models.ManyToManyField(Menu, through='DetallePedido')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    ESTADOS_PEDIDO = (
+        ('pendiente', 'Pendiente'),
+        ('confirmado', 'Confirmado'),
+    )
+    estado = models.CharField(max_length=20, choices=ESTADOS_PEDIDO, default='pendiente')
 
     def __str__(self):
         return self.cliente.nombre

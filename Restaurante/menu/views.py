@@ -3,6 +3,7 @@ from django.contrib import messages
 from .models import Categoria
 from .forms import MenuForm
 from .models import Menu
+import os
 
 
 def inicioCategoria(request):
@@ -61,9 +62,30 @@ def crear_menu(request):
 
     return render(request, 'menu/crear_menu.html', {'form': form, 'menus': menus})
 
+
+def editar_menu(request, id):
+    menu = Menu.objects.get(id=id)
+    
+    if request.method == 'POST':
+        form = MenuForm(request.POST, request.FILES, instance=menu)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Menú actualizado correctamente")
+            return redirect('crear_menu')
+    
+    form = MenuForm(instance=menu)
+    menus = Menu.objects.all()
+    
+    return render(request, 'menu/editar_menu.html', {'form': form, 'menus': menus, 'menu': menu})
+
 def eliminar_menu(request, id):
     menu = Menu.objects.get(id=id)
+    # Obtener la ruta de la imagen relacionada
+    ruta_imagen = menu.imagen.path
     menu.delete()
-    messages.success(request, "Menú eliminado correctamente")
+    # Eliminar la imagen relacionada
+    if os.path.exists(ruta_imagen):
+        os.remove(ruta_imagen)
+        messages.success(request, "Menú eliminado correctamente")
     
     return redirect('crear_menu')

@@ -12,9 +12,14 @@ def crear_pedido(request):
         usuario = Usuario.objects.get(id=usuario_id)
         
         if usuario.tipo_usuario == 'cliente':
+            menus_seleccionados = request.POST.getlist('menu_seleccionado')
+            
+            if not menus_seleccionados:
+                messages.error(request, "No has seleccionado ningún menú.")
+                return redirect('/pedido/menu_disponible')
+            
             pedido = Pedido.objects.create(cliente=usuario)
             
-            menus_seleccionados = request.POST.getlist('menu_seleccionado')
             seleccionados_con_cantidad = defaultdict(Decimal)
             
             for menu_id in menus_seleccionados:
@@ -40,7 +45,7 @@ def crear_pedido(request):
             pedido.save()
             
             detalles_pedido = DetallePedido.objects.filter(pedido=pedido)
-            #Para verificar si el pedido fue creado
+            # Para verificar si el pedido fue creado 
             for detalle in detalles_pedido:
                 print(f'Detalle Pedido #{detalle.pedido.id} - Menu: {detalle.menu.nombre}, Cantidad: {detalle.cantidad}, Subtotal: {detalle.subtotal}')
             
@@ -56,8 +61,14 @@ def crear_pedido(request):
 def menu_disponible(request):
     categorias = Categoria.objects.all()
     menus = Menu.objects.all()
-    usuario= Usuario.objects.all()
-    
+    usuario = Usuario.objects.all()
+
+    # Verificar si se ha enviado un formulario de filtro por categoría
+    categoria_filtrada = request.POST.get('categoria')
+    if categoria_filtrada:
+        # Filtrar los menús por la categoría seleccionada
+        menus = Menu.objects.filter(categoria=categoria_filtrada)
+
     contexto = {
         "categorias": categorias,
         "menus": menus,
@@ -65,6 +76,7 @@ def menu_disponible(request):
     }
     
     return render(request, 'pedido/menu_disponible.html', contexto)
+
 
 def lista(request):
     usuario_id = request.session['usuario']['id']
